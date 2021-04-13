@@ -2,25 +2,21 @@ import math
 n, m = map(int,input().split())
 S = input()
 T = input()
+if n == 1 and m == 1 and S[0] != T[0]:
+    print(-1)
+    exit()
 ans = n * m // math.gcd(n, m)
-Condidate = ['0' for i in range(ans)]
+
 x = ans // n
 y = ans // m
-for i in range(min(n, m)):
-    a = x * i + 1
-    b = y * i + 1
-    if Condidate[a - 1] == '0' or Condidate[a - 1] == S[i]:
-        Condidate[a - 1] = S[i]
 
-    else:
-        ans = -1
-        break
+for i in range(n):
+    z = x * i + 1
+    
+    if z % y == 1:
+        
+        if S[i] != T[(z - 1) // y]:
+            print(-1)
+            exit()
 
-    if Condidate[b - 1] == '0' or Condidate[b - 1] == T[i]:
-        Condidate[b - 1] = T[i]
-
-    else:
-        ans = -1
-        break
 print(ans)
-
