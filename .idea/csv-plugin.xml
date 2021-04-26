@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/C-Bowls_and_Dishes.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/D-Derangement.py">
           <value>
             <Attribute>
