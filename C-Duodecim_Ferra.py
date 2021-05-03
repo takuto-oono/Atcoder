@@ -1,12 +1,7 @@
 l = int(input())
-import math
 ans = 1
-l -= 12
-x = l
-while(l > 0):
-    ans *= 12
-    l -= 1
-ans //= math.factorial(x)
+for i in range(11):
+    ans *= (l - 1 - i)
+    ans /= (i + 1)
+    print(ans)
 print(ans)
-
-a,b = b, a
