@@ -18,9 +18,7 @@ func main() {
 					ans += 1
 				}
 			}
-
 		}
 	}
 	fmt.Println(ans)
-
 }
