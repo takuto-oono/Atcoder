@@ -13,5 +13,4 @@ func main(){
 		ans = x / 11 * 2 + 2
 	}
 	fmt.Println(ans)
-
 }
