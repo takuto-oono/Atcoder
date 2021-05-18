@@ -1,7 +1,6 @@
 package main
-import (
-	"fmt"
-)
+
+import "fmt"
 
 func main(){
 	var n, k, r, s, p, ans int
