@@ -1,45 +1,27 @@
-def fibo(n):
-    if n == 1:
-        return 0
-    else:
-        return fibo(n - 1) + n
-mod = 1000000007
 n, m = map(int, input().split())
-A = [1 for i in range(n + 1)]
+mod = 10 ** 9 + 7
+dp = [0 for i in range(n + 1)]
 for i in range(m):
     a = int(input())
-    A[a] = 0
-memo = 0
-ans = 1
-print(A)
-for i in range(n + 1):
-    if i == n:
-        ans *= fibo(memo)
-        print(i, fibo(memo))
-    elif A[i] == 1:
-        memo += 1
+    dp[a] = -1
+
+dp[0] = 1
+for i in range(1, n + 1):
+    if dp[i] == -1:
+        continue
+    elif i == 1:
+        dp[i] = 1
     else:
-        if memo == 0:
-            ans = 0
-            break
-        elif memo == 1:
-            memo = 0
+        if dp[i - 1] == -1 and dp[i - 2] == -1:
+            print(0)
+            exit()
+        elif dp[i - 1] == -1:
+            dp[i] = dp[i - 2]
+        elif dp[i - 2] == -1:
+            dp[i] = dp[i - 1]
         else:
-            ans *= fibo(memo - 1)
-            print(i, fibo(memo - 1))
-            memo = 0
+            dp[i] = (dp[i - 1] + dp[i - 2]) % mod
 
-    if ans % mod != 0:
-        ans %= mod
-
-
-ans %= mod
-
-
-print(ans)
-
-
-
-
+print(dp[n] % mod)
 
 
