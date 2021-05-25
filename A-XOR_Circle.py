@@ -12,7 +12,6 @@ for i in range(n):
                     memo[i] += 1
                     memo[j] += 1
                     memo[k] += 1
-
                     break
 
 
