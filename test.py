@@ -1,1 +1,1 @@
-A = []for i in range(14):    a = []    for j in range(14):        x = i * j % 14        a.append(x)    A.append(a)ans = []for i in range(14):    print(A[i])    if 1 in A[i]:        ans.append(i)print(ans)print(3 ** 202 % 100)for i in range(2, 7):    x = i    ans = 1    while(x != 1):        x *= i        x %= 7        ans += 1    print(i, ans)
+print('Hello_Python')

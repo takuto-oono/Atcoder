@@ -1,28 +1,25 @@
 
-a, b = map(int, input().split())
-ans = 0
-for i in range(1, b + 1):
-    x = 0
-    y = 0
-    if a % i == 0:
+def main():
+    a, b = map(int, input().split())
+    m = b // 2 + 1
+    ans = 1
+    for i in range(1,m + 1):
+        y = m - i + 1
+        c = 0
         x = a
-    else:
-        x = (a // i) * i + i
+        while(x <= b):
+            if x % y == 0:
+                c += 1
+            x += 1
+            if c == 2:
+                break
+        if c == 2:
+            ans = y
+            break
 
-    if b % i == 0:
-        y = b
-    else:
-        y = (b // i) * i
+    print(ans)
 
-    if a <= x <= b and a <= y <= b and x < y:
-        ans = i
-
-
-print(ans)
-
-
-
-
+main()
 
 
 
