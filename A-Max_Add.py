@@ -4,39 +4,26 @@
 
 
 
-def f(A, C, x):
+def F(n, A):
+    A_max = A[0]
+    A_sum = A[0]
+    ans = A_max + A_sum
 
-    return C[x] + max(A[:x + 1]) * (x + 1)
+    for i in range(n):
+        if i == 0:
+            print(ans)
 
+        else:
+            A_sum += A[i]
+            ans += A_sum - A_max * i
+            A_max = max(A_max, A[i])
+            ans += A_max * (i + 1)
+            print(ans)
 
 def main():
     n = int(input())
     A = list(map(int, input().split()))
-    B = [0 for i in range(n)]
-    for i in range(n):
-        if i == 0:
-            B[0] = A[0]
-
-        else:
-            B[i] = B[i - 1] + A[i]
-
-    C = [0 for i in range(n)]
-
-    for i in range(n):
-        if i == 0:
-            C[0] = B[0]
-
-        else:
-            C[i] = C[i - 1] + B[i]
-
-
-    for i in range(n):
-
-        ans = f(A, C, i)
-        print(ans)
-
-
-
-
+    F(n, A)
 
 main()
+
