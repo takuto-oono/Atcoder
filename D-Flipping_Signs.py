@@ -10,12 +10,18 @@ def dynamic_programming(A, n):
     for i in range(n):
         a = A[i]
         dp[i + 1][0] = max(dp[i][0] + a, dp[i][1] - a)
-        dp[i + 1][1]
+        dp[i + 1][1] = max(dp[i][1] + a, dp[i][0] - a)
+    
+    return dp[n][0]
 
 
 def main():
     n = int(input())
     A = list(map(int, input().split()))
+    print(dynamic_programming(A, n))
+
+main()
+
 
 
 
