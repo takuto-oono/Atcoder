@@ -1,5 +1,0 @@
-N ,K = map(int,input().split())
-p = list(map(int,input().split()))
-p = sorted(p)
-x = sum(p[: K])
-print(x)
