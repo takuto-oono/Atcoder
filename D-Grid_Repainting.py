@@ -12,11 +12,11 @@ def main():
         S.append(s)
         
     path = [[[] for _ in range(w)] for _ in range(h)]
-    print(path)
-    
+    count = 0
     for i in range(h):
         for j in range(w):
             if S[i][j] == '#':
+                count += 1
                 continue
             
             if i == 0 and j == 0:
@@ -29,7 +29,6 @@ def main():
                 continue
                 
             if i == h - 1 and j == w - 1:
-                path[i][j] = 1
                 continue
             
             if j != w - 1:
@@ -48,58 +47,33 @@ def main():
                 if S[i][j - 1] == '.':
                     path[i][j].append([i, j - 1])
                     
-    for i in range(h):
-        print(path[i])
+    def BFS(path):
+        dist = [[-1 for _ in range(w)] for _ in range(h)]
+        dist[0][0] = 0
+        todo = [[0,0]]
+        
+        while(len(todo) > 0):
+            now = todo[0]
+            todo.remove(now)
+            
+            for p in path[now[0]][now[1]]:
+                next_h = p[0]
+                next_w = p[1]
+                
+                if dist[next_h][next_w] != -1:
+                    continue
+                
+                dist[next_h][next_w] = dist[now[0]][now[1]] + 1
+                todo.append(p)
+                
+        return dist[h - 1][w - 1]
+    
+    if BFS(path) == -1:
+        print(-1)
+        exit()
+        
+    ans = h * w - BFS(path) - count - 1
+    print(ans)
 
-    condidate_path = []
-    condidate_path_list = []
-    
-    def search(i, j, path, condidate_path, condidate_path_list, h, w):
-        print(i, j)
-        condidate_path.append([i, j])
-        if i == h - 1 and j == w - 1:
-            condidate_path_list.append(condidate_path)
-            
-            
-        
-        elif i == 0 and j == 0:
-            if path[i][j] != []:
-                
-                for k in range(len(path[i][j])):
-                    p = path[i][j][k]
-                    print(i, j, p)
-        
-                    search(p[0], p[1], path, condidate_path, condidate_path_list, h, w)
-                
-                    condidate_path.remove([p[0], p[1]])
-        
-        else:
-            if path[i][j] != []:
-                for k in range(len(path[i][j])):
-                    
-                    p = path[i][j][k]
-                    print(i, j, p)
-                    
-                    if p == condidate_path[-1]:
-                        continue
-                    
-                    search(p[0], p[1], path, condidate_path, condidate_path_list, h, w)
-                    condidate_path.remove([p[0], p[1]])
-    
-    search(0, 0, path, condidate_path, condidate_path_list, h, w)
-    
-    for condidate in condidate_path_list:
-        print(condidate)
-                
-                
-        
 if __name__ == '__main__':
     main()
-
-        
-        
-
-            
-            
-            
-                
