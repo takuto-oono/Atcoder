@@ -16,6 +16,7 @@ def main():
     a_small = []
     condidate1 = 0
     
+    
     for i in range(n):
         j = n - i - 1
         if i == j:
