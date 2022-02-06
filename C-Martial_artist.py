@@ -13,7 +13,6 @@ def main():
         for j in range(r):
             skill_branch[l[j] - 1].append(i)
     
-    def search(now, goal, todo_list):
         
     
             
