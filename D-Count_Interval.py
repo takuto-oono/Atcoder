@@ -1,34 +1,30 @@
-def main():
-    n, k = map(int, input().split())
-    a_list = list(map(int, input().split()))
-    s_list = [0]
-    cnt = 0
-    for i in range(n):
-        cnt += a_list[i]
-        s_list.append(cnt)
+def create_a_sum_list(a_list, n):
+    a_sum_list = [0]
+    sum = 0
+    for a in a_list:
+        sum += a
+        a_sum_list.append(sum)
 
-    s_dic = {}
-    for i in range(len(s_list)):
-        s = s_list[i]
-        if s in s_dic:
-            s_dic[s].append(i)
-            continue
+    return a_sum_list
 
-        if s not in s_dic:
-            s_dic[s] = [i]
-            continue
 
+def count_gap_k_index_pair(a_sum_list, n, k):
     ans = 0
+    a_sum_dic = {}
 
-    for i in range(len(s_list)):
-        s = s_list[i]
-        if s - k in s_dic:
-            for index in s_dic[s - k]:
-                if index < i:
-                    ans += 1
+    for i in range(1, n + 1):
+        if a_sum_list[i - 1] in a_sum_dic:
+            a_sum_dic[a_sum_list[i - 1]] += 1
 
-    print(ans)
+        else:
+            a_sum_dic[a_sum_list[i - 1]] = 1
+
+        if a_sum_list[i] - k in a_sum_dic:
+            ans += a_sum_dic[a_sum_list[i] - k]
+    return ans
 
 
 if __name__ == '__main__':
-    main()
+    n, k = map(int, input().split())
+    a_list = list(map(int, input().split()))
+    print(count_gap_k_index_pair(create_a_sum_list(a_list, n), n, k))
