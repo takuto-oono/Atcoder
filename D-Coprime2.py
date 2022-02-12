@@ -19,6 +19,7 @@ def delete_multiple(m):
         if value:
             continue
 
+
         x = 2 * key
         while(x <= m):
             ans_candidate_dic[x] = False
