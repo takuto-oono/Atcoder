@@ -1,48 +1,52 @@
-import math
-a_list = []
-prime_factor_list = []
+ans_candidate_dic = {}
 
 
-def create_prime_factor_list():
-    prime_factors = []
-    for i in range(len(a_list)):
-        a = a_list[i]
-        if a % 2 == 0:
-            prime_factors.append(2)
-            while(a % 2 == 0):
-                a //= 2
-        print(a)
-        if a == 1:
+def factorization(x):
+    y = x
+    for i in range(2, int(y ** 0.5) + 1):
+        if x % i == 0:
+            ans_candidate_dic[i] = False
+            while x % i == 0:
+                x //= i
+
+    if x != 1:
+        ans_candidate_dic[x] = False
+
+
+def delete_multiple(m):
+    for key in ans_candidate_dic:
+        value = ans_candidate_dic[key]
+        if value:
             continue
 
-        for prime in range(3, a + 1, 2):
-            print(i, prime)
-            if a % prime == 0:
-                prime_factors.append(prime)
-                while(a % prime == 0):
-                    a //= prime
-
-            if a == 1:
-                break
-    print(prime_factors)
-    prime_factors = list(set(prime_factors))
-    prime_factor_list = prime_factors
+        x = 2 * key
+        while(x <= m):
+            ans_candidate_dic[x] = False
+            x += key
 
 
-def print_ans(m):
-    print(prime_factor_list)
-    x = 1
-    for prime in prime_factor_list:
-        x *= prime
+def print_ans():
+    ans_count = 0
+    for key in ans_candidate_dic:
+        if ans_candidate_dic[key]:
+            ans_count += 1
 
-    for ans in range(1, m + 1):
-        if math.gcd(ans, x) == 1:
-            print(ans)
+    print(ans_count)
+
+    for key in ans_candidate_dic:
+        if ans_candidate_dic[key]:
+            print(key)
 
 
 if __name__ == '__main__':
     n, m = map(int, input().split())
-    prime_factor_list = [1]
     a_list = list(map(int, input().split()))
-    create_prime_factor_list()
-    print_ans(m)
+    for i in range(1, m + 1):
+        ans_candidate_dic[i] = True
+
+    for a in a_list:
+        factorization(a)
+
+    delete_multiple(m)
+
+    print_ans()
