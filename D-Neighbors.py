@@ -1,66 +1,88 @@
-def dfs(n, branch, start, seen_list):
-    todo_list = []
-    if seen_list[start] == False:
-        seen_list[start] = True
-        todo_list.append(start)
+from typing import List
 
-    while(len(todo_list) > 0):
-        todo = todo_list.pop(0)
-        for b in branch[todo]:
-            if seen_list[b]:
-                return False
-
-            seen_list[b] = True
-            todo_list.append(b)
-
-    return True
+count_dic = {}
 
 
-def judge(n, branch, ab_list):
-    max_len = 0
-    for b in branch:
-        max_len = max(max_len, len(b))
+class UnionFind():
+    def __init__(self, n: int) -> None:
+        self.parent_list = [-1 for _ in range(n)]
+        self.size_list = [1 for _ in range(n)]
 
-    if max_len > 2:
+    def root(self, x: int) -> int:
+        if self.parent_list[x] == -1:
+            return x
+
+        self.parent_list[x] = self.root(self.parent_list[x])
+        return self.parent_list[x]
+
+    def is_same(self, x: int, y: int) -> bool:
+        return self.root(x) == self.root(y)
+
+    def unite(self, x: int, y: int) -> bool:
+        x = self.root(x)
+        y = self.root(y)
+
+        if x == y:
+            return False
+
+        if self.size_list[x] < self.size_list[y]:
+            x, y = y, x
+
+        self.parent_list[y] = x
+        self.size_list[x] += self.size_list[y]
+        return True
+
+    def create_root_list(self) -> List[int]:
+        root_list = []
+        for x in range(len(self.parent_list)):
+            if self.parent_list[x] == -1:
+                root_list.append(x)
+
+        return root_list
+
+
+def count(x: int) -> bool:
+    if x in count_dic:
+        count_dic[x] += 1
+    else:
+        count_dic[x] = 1
+
+    if count_dic[x] > 2:
+        return True
+
+    else:
         return False
 
-    seen_list = [False for _ in range(n)]
-    for start in ab_list:
-        judgement = dfs(n, branch, start, seen_list)
-        print(seen_list)
-        if judgement:
-            continue
 
-        return False
+def check_number_of_appearances(ab_list: List) -> bool:
+    for ab in ab_list:
+        a = ab[0]
+        b = ab[1]
 
-    return True
+        if count(a):
+            return True
+
+        if count(b):
+            return True
+
+    return False
 
 
 if __name__ == '__main__':
     n, m = map(int, input().split())
-    branch = [[] for _ in range(n)]
+    uf = UnionFind(n)
     ab_list = []
-    count_list = [0 for _ in range(n)]
-    for i in range(m):
+    for _ in range(m):
         a, b = map(int, input().split())
         a -= 1
         b -= 1
-        count_list[a] += 1
-        count_list[b] += 1
+        if uf.unite(a, b) == False:
+            print('No')
+            exit()
+        ab_list.append([a, b])
 
-        branch[a].append(b)
-        branch[b].append(a)
-        ab_list.append(a)
-        ab_list.append(b)
-
-    if max(count_list) > 2:
+    if check_number_of_appearances(ab_list):
         print('No')
         exit()
 
-    ab_list = list(set(ab_list))
-
-    if judge(n, branch, ab_list):
-        print('Yes')
-
-    else:
-        print('No')
+    print('Yes')
