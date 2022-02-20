@@ -1,118 +1,120 @@
 from typing import List
+
 h = 0
 w = 0
-a_list = []
-count_letter_list = [0 for _ in range(26)]
-ans = 'Yes'
+a_count_list = [0 for _ in range(26)]
 
 
-def change_int_from_char(c: str) -> int:
+def change_int_from_str(c: str) -> int:
     return ord(c) - 97
 
 
-def count_letter() -> None:
-    for y in range(h):
-        for x in range(w):
-            count_letter_list[change_int_from_char(a_list[y][x])] += 1
-
-
-def check_is_multiple_of_4(ans: str) -> str:
-    for count in count_letter_list:
+def judge_even_even() -> bool:
+    for count in a_count_list:
         if count % 4 != 0:
-            ans = "No"
-            
-    return ans
-
-
-def check_is_palindrome(memo_list: List[int], n: int) -> bool:
-    odd_cnt = 0
-    for memo in memo_list:
-        if memo % 2 == 1:
-            odd_cnt += 1
-
-    if n % 2 == 0:
-        if odd_cnt > 0:
-            return False
-
-    if n % 2 == 1:
-        if odd_cnt > 1:
             return False
 
     return True
 
 
-if __name__ == '__main__':
-    h, w = map(int, input().split())
-    ans = "Yes"
-    for _ in range(h):
-        a = list(input())
-        a_list.append(a)
+def create_not_4_count_list() -> List[int]:
+    not_4_count_list = [0 for _ in range(26)]
+    for index, count in enumerate(a_count_list):
+        if count % 4 != 0:
+            not_4_count_list[index] = count % 4
+            a_count_list[index] -= count % 4
 
-    count_letter()
+    return not_4_count_list
 
-    if h % 2 == 0 and w % 2 == 0:
-        ans = check_is_multiple_of_4(ans)
 
-    elif h % 2 == 0 and w % 2 == 1:
-        memo_list = [0 for _ in range(26)]
-        for i, count in enumerate(count_letter_list):
-            if count % 4 != 0:
-                m = count % 4
-                memo_list[i] = m
-                count_letter_list[i] -= m
-
-        if sum(memo_list) > h:
-            ans = "No"
-
-        elif sum(memo_list) < h:
-            if sum(memo_list) - h % 4 != 0:
-                ans = "No"
-
-            else:
-                check_is_palindrome(memo_list, h)
-        else:
-            check_is_palindrome(memo_list, h)
-
-    elif h % 2 == 1 and w % 2 == 0:
-        memo_list = [0 for _ in range(26)]
-        for i, count in enumerate(count_letter_list):
-            if count % 4 != 0:
-                m = count % 4
-                memo_list[i] = m
-                count_letter_list[i] -= m
-
-        if sum(memo_list) > w:
-            ans = "No"
-
-        elif sum(memo_list) < w:
-            if sum(memo_list) - w % 4 != 0:
-                ans = "No"
-
-            else:
-                check_is_palindrome(memo_list, w)
-        else:
-            check_is_palindrome(memo_list, w)
+def judge_1(n: int) -> bool:
+    if n % 2 == 0:
+        for count in a_count_list:
+            if count % 2 == 1:
+                return False
 
     else:
-        memo_list = [0 for _ in range(26)]
-        for i, count in enumerate(count_letter_list):
-            if count % 4 != 0:
-                m = count % 4
-                memo_list[i] = m
-                count_letter_list[i] -= m
+        odd_cnt = 0
+        for count in a_count_list:
+            if count % 2 == 1:
+                odd_cnt += 1
+                if odd_cnt == 2:
+                    return False
 
-        cnt = 0
-        for memo in memo_list:
-            if memo == 1:
-                cnt += 1
+    return True
 
-        if cnt != 1:
-            ans = 'No'
 
-        else:
-            for memo in memo_list:
-                if memo % 2 == 1:
-                    ans = "No"
-                    break
+def judge_odd_odd() -> bool:
+    not_4_count_list = create_not_4_count_list()
+    if sum(not_4_count_list) > h + w - 1:
+        return False
 
-    print(ans)
+    cnt = 0
+    for count in not_4_count_list:
+        if count % 2 != 0:
+            cnt += 1
+            if cnt == 2:
+                return False
+
+    if cnt == 0:
+        return False
+
+    if sum(not_4_count_list) < h + w - 1:
+        if h + w - 1 - sum(not_4_count_list) % 4 != 0:
+            return False
+
+    return True
+
+
+def judge_odd_even(even_num: int) -> bool:
+    not_4_count_list = create_not_4_count_list()
+
+    if sum(not_4_count_list) > even_num:
+        return False
+
+    for count in not_4_count_list:
+        if count % 2 == 1:
+            return False
+
+    if sum(not_4_count_list) < even_num:
+        if even_num - sum(not_4_count_list) % 4 != 0:
+            return False
+
+    return True
+
+
+def judge(h: int, w: int) -> bool:
+
+    if h == 1 or w == 1:
+        if h == 1 and w == 1:
+            return True
+
+        if h == 1:
+            return judge_1(w)
+
+        if w == 1:
+            return judge_1(h)
+
+    if h % 2 == 0 and w % 2 == 0:
+        return judge_even_even()
+
+    if h % 2 == 1 and w % 2 == 1:
+        return judge_odd_odd()
+
+    if h % 2 == 0:
+        return judge_odd_even(h)
+
+    return judge_odd_even(w)
+
+
+if __name__ == '__main__':
+    h, w = map(int, input().split())
+    for _ in range(h):
+        a_list = list(input())
+        for a in a_list:
+            a_count_list[change_int_from_str(a)] += 1
+
+    if judge(h, w):
+        print('Yes')
+    else:
+        print('No')
