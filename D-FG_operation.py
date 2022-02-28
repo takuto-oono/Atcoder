@@ -20,6 +20,7 @@ def Operation_execution(A, M):
                 m = M[j]
                 x = j
 
+
                 if m == 0:
                     continue
 
