@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -36,5 +37,14 @@ func intfromstr(s string) int {
 
 func main() {
 	rdr = bufio.NewReaderSize(os.Stdin, 10000000)
-
+	line := intinput()
+	a, b, c, x := line[0], line[1], line[2], line[3]
+	if x <= a {
+		fmt.Println(1)
+	} else if x > a && x <= b {
+		var ans = float64(c) / float64(b-a)
+		fmt.Println(ans)
+	} else {
+		fmt.Println(0)
+	}
 }
