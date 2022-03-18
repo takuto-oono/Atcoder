@@ -26,7 +26,6 @@ func intinput() []int {
 	for _, v := range readlinestring() {
 		list = append(list, intfromstr(v))
 	}
-
 	return list
 }
 
@@ -45,7 +44,7 @@ func main() {
 	b_list = intinput()
 	ans1 := 0
 	ans2 := 0
-	for i := 0; i < n; i ++ {
+	for i := 0; i < n; i++ {
 		if a_list[i] == b_list[i] {
 			ans1++
 		}
