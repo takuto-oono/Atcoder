@@ -2,5 +2,9 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="DjangoCloseTagInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="EditorConfigPairAcceptability" enabled="true" level="ERROR" enabled_by_default="true">
+      <scope name="Project Files" level="ERROR" enabled="true" />
+    </inspection_tool>
+    <inspection_tool class="GoExportedElementShouldHaveComment" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
   </profile>
 </component>
