@@ -11,3 +11,4 @@ func sortIntIntSlice(sl [][]int, index int, rev bool) {
 		sort.Slice(sl, func(i, j int) bool { return sl[i][index] < sl[j][index] })
 	}
 }
+
