@@ -58,7 +58,7 @@ func pow(x, y int) int {
 }
 
 func f(a, b int) int {
-	return a * a * a + b * b * b + a*a*b + b*b*a
+	return a*a*a + b*b*b + a*a*b + b*b*a
 }
 
 func main() {
