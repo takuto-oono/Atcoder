@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"sort"
+)
 
 type UnionFind struct {
 	parSlice  []int
@@ -45,17 +47,31 @@ func (uni *UnionFind) size(x int) int {
 	return uni.sizeSlice[uni.root(x)]
 }
 
-func main() {
-	uni := new(UnionFind)
-	uni.createStruct(8)
-	uni.unite(1, 2)
-	uni.unite(3, 4)
-	uni.unite(5, 6)
-	uni.unite(2, 3)
-	fmt.Println(uni.isSame(1, 2))
-	fmt.Println(uni.isSame(1, 4))
-	fmt.Println(uni.isSame(4, 5))
-	fmt.Println(uni.isSame(1, 7))
-	fmt.Println(uni.parSlice)
-	fmt.Println(uni.sizeSlice)
+type Edge struct {
+	weight int
+	pair   []int
+}
+
+func sortEdgeByWeight(edges []Edge) []Edge {
+	sort.Slice(edges, func(i, j int) bool {
+		return edges[i].weight > edges[j].weight
+	})
+	return edges
+}
+
+func cruccal(edges []Edge, n int) int {
+	uf := new(UnionFind)
+	uf.createStruct(n)
+	ans := 0
+	for _, edge := range edges {
+		w := edge.weight
+		u := edge.pair[0]
+		v := edge.pair[1]
+		if (uf.isSame(u, v)) {
+			continue
+		}
+		ans += w
+		uf.unite(u, v)
+	}
+	return ans
 }
