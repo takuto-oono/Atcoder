@@ -52,40 +52,57 @@ func init() {
 	sc.Split(bufio.ScanWords)
 }
 
-func main() {
-	n, m, k, md := intInput(), intInput(), intInput(), 998244353
-	dp := make([][]int, n)
+func sumIntSlice(sl []int) int {
+	s := 0
+	for _, v := range sl {
+		s += v
+	}
+	return s
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+func dp(n, m, k, md int) int {
+	dpSl := make([][]int, n)
 	for i := 0; i < n; i++ {
-		dp[i] = make([]int, m)
+		dpSl[i] = make([]int, m)
 	}
 	for i := 0; i < m; i++ {
-		dp[0][i] = 1
+		if i+k < m || i-k >= 0 {
+			dpSl[0][i] = 1
+		}
 	}
 	for i := 1; i < n; i++ {
-		s := 0
-		begin := 0
-		end := 0
-		for j := 0; j < k; j++ {
-			s += dp[i-1][j]
-			begin = 0
-			end = k - 1
-		}
+		cumulative := 0
 		for j := 0; j < m; j++ {
-			dp[i][j] = s
-			if end < m-1 {
-				s += dp[i-1][end]
-				end += 1
-			}
-			if end-begin+1 > 2*k {
-				s -= dp[i-1][begin]
-				begin += 1
+			if j >= k {
+				cumulative += dpSl[i-1][j]
 			}
 		}
+		cumulative %= md
+		for j := 0; j < m; j++ {
+			dpSl[i][j] = cumulative
+			if k == 0 {
+				continue
+			}
+			if j+k < m {
+				cumulative -= dpSl[i-1][j+k]
+			}
+			if j >= k-1 {
+				cumulative += dpSl[i-1][j-k+1]
+			}
+			cumulative %= md
+		}
 	}
-	ans := 0
-	for j := 0; j < m; j++ {
-		ans += dp[n-1][j]
-		ans %= md
-	}
-	fmt.Println(ans % md)
+	return sumIntSlice(dpSl[n-1]) % md
+}
+
+func main() {
+	n, m, k, md := intInput(), intInput(), intInput(), 998244353
+	fmt.Println(dp(n, m, k, md))
 }
