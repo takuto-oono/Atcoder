@@ -1,10 +1,6 @@
 package main
 
-import (
-
-)
-
-func countIntSliceValue(sl []int) map[int]int {
+func createMapSlCounter(sl []int) map[int]int {
 	countMap := make(map[int]int)
 	for _, v := range sl {
 		_, ok := countMap[v]
