@@ -1,14 +1,10 @@
 package main
 
-import (
-
-)
-
 func reverseIntSlice(sl []int) []int {
-	revSl := []int{}
 	l := len(sl)
-	for i := 0; i < l; i ++ {
-		revSl = append(revSl, sl[l - i - 1])
+	revSl := make([]int, l)
+	for i, v := range sl {
+		revSl[l-i-1] = v
 	}
 	return revSl
 }

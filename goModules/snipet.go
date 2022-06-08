@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"os"
-	"fmt"
 	"strconv"
 )
 
@@ -24,26 +23,39 @@ func intInput() int {
 	return x
 }
 
-func largeInput() string {
-	buf := make([]byte, 0, 1000000)
-	for {
-		l, p, err := rdr.ReadLine()
-		if err != nil {
-			panic(err)
-		}
-		buf = append(buf, l...)
-		if !p {
-			break
-		}
-	}
-	return string(buf)
-}
-
 func intSliceInput(n int) []int {
 	sl := []int{}
 	for i := 0; i < n; i++ {
 		x := intInput()
 		sl = append(sl, x)
+	}
+	return sl
+}
+
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+func initSlSl(y, x int) [][]int {
+	sl := make([][]int, y)
+	if x == -1 {
+		for i := 0; i < y; i++ {
+			sl[i] = []int{}
+		}
+		return sl
+	}
+	for i := 0; i < y; i++ {
+		sl[i] = make([]int, x)
 	}
 	return sl
 }

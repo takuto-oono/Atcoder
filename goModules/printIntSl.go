@@ -7,7 +7,7 @@ import (
 )
 
 func printIntSlice(sl []int) {
-	ans := []string{}
+	ans := make([]string, 0)
 	for _, v := range sl {
 		ans = append(ans, strconv.Itoa(v))
 	}
