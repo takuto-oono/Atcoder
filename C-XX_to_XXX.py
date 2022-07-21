@@ -43,9 +43,7 @@ def judge(s: str, t: str) -> bool:
 
 
 def main():
-    s = input()
-    t = input()
-    if judge(s, t):
+    if judge(input(), input()):
         print('Yes')
     else:
         print('No')
