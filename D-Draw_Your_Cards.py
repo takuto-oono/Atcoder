@@ -15,6 +15,9 @@ class DrawYourCards:
         union = UnionFind(self.n)
 
         for i, p in enumerate(self.p_list):
+            if self.k == 1:
+                self.card_list[p] = i + 1
+                continue
             if len(board) == 0:
                 board.append(p)
                 continue
@@ -23,23 +26,29 @@ class DrawYourCards:
                 continue
             index = bisect_left(board, p)
             union.union(p, board[index])
-            if union.size(p) == self.k:
+            if union.get_size(p) == self.k:
+                self.card_list[union.get_root(p)] = i + 1
+                board.pop(index)
+            else:
+                board[index] = p
+        for i in range(self.n):
+            self.card_list[i] = self.card_list[union.get_root(i)]
 
-
-
-
+    def print_card_list(self):
+        for ans in self.card_list:
+            print(ans)
 
 
 class UnionFind:
     def __init__(self, n: int) -> None:
-        self.n = n
-        self.parents = [-1] * n
+        self.parents = [-1 for _ in range(n)]
 
     def find(self, x: int) -> int:
         if self.parents[x] < 0:
             return x
-        self.parents[x] = self.find(self.parents[x])
-        return self.parents[x]
+        else:
+            self.parents[x] = self.find(self.parents[x])
+            return self.parents[x]
 
     def union(self, x: int, y: int) -> None:
         x = self.find(x)
@@ -54,10 +63,21 @@ class UnionFind:
         self.parents[x] += self.parents[y]
         self.parents[y] = x
 
-    def size(self, x: int) -> int:
+    def get_size(self, x: int) -> int:
         return -self.parents[self.find(x)]
 
     def is_same(self, x: int, y: int) -> bool:
         return self.find(x) == self.find(y)
 
+    def get_root(self, x: int) -> int:
+        return self.find(x)
+
+
 def main():
+    dyc = DrawYourCards()
+    dyc.game()
+    dyc.print_card_list()
+
+
+if __name__ == '__main__':
+    main()
