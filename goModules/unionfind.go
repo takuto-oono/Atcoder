@@ -7,11 +7,13 @@ type UnionFind struct {
 	sizeSlice []int
 }
 
-func (uni *UnionFind) createStruct(n int) {
+func createStruct(n int) *UnionFind {
+	uni := new(UnionFind)
 	for i := 0; i < n; i++ {
 		uni.parSlice = append(uni.parSlice, -1)
 		uni.sizeSlice = append(uni.sizeSlice, 1)
 	}
+	return uni
 }
 
 func (uni *UnionFind) root(x int) int {
@@ -46,8 +48,7 @@ func (uni *UnionFind) size(x int) int {
 }
 
 func main() {
-	uni := new(UnionFind)
-	uni.createStruct(8)
+	uni := createStruct(8)
 	uni.unite(1, 2)
 	uni.unite(3, 4)
 	uni.unite(5, 6)
